@@ -1,1 +1,1 @@
-# Holbertonschool Web Back-End
+# 0x06. Basic authentication
