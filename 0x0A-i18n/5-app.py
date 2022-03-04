@@ -29,19 +29,6 @@ users = {
 }
 
 
-
-@app.before_request
-def before_request():
-    """ Finds a user if any, and set it as a global on `flask.g.user` """
-    g.user = get_user(request.args.get('login_as'))
-
-
-@app.route('/', methods=['GET'], strict_slashes=False)
-def hello_world():
-    """ Welcome HTML page """
-    return render_template('5-index.html')
-
-
 @babel.localeselector
 def get_locale() -> str:
     """
@@ -62,6 +49,18 @@ def get_user(login_as: int):
     except Exception:
         return None
     return users.get(int(login_as))
+
+
+@app.before_request
+def before_request():
+    """ Finds a user if any, and set it as a global on `flask.g.user` """
+    g.user = get_user(request.args.get('login_as'))
+
+
+@app.route('/', methods=['GET'], strict_slashes=False)
+def hello_world():
+    """ Welcome HTML page """
+    return render_template('5-index.html')
 
 
 if __name__ == "__main__":
