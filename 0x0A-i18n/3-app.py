@@ -5,10 +5,7 @@ Module for 3-app.py
 Holberton Web Stack programming Spec ― Back-end
 """
 from flask import Flask, render_template, request
-from flask_babel import Babel, gettext
-
-app = Flask(__name__)
-babel = Babel(app)
+from flask_babel import Babel
 
 
 class Config(object):
@@ -18,21 +15,24 @@ class Config(object):
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
+app = Flask(__name__)
+babel = Babel(app)
+
 app.config.from_object(Config)
 
 
-@app.route('/', methods=['GET'], strict_slashes=False)
-def hello_world() -> str:
-    """ Welcome HTML page """
-    return render_template('3-index.html')
-
-
 @babel.localeselector
-def get_locale() -> str:
+def get_locale():
     """
     Determines the best match language according suppported languages
     """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
+
+
+@app.route('/', methods=['GET'], strict_slashes=False)
+def hello_world():
+    """ Welcome HTML page """
+    return render_template('3-index.html')
 
 
 if __name__ == "__main__":
